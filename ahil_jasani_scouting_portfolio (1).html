@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ahil Jasani | Scouting Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --off-white: #f9f8f6;
+    --surface: #f2f1ef;
+    --border: #e4e3e0;
+    --border-strong: #c8c7c3;
+    --text-primary: #1a1916;
+    --text-secondary: #5c5b57;
+    --text-muted: #9c9b96;
+    --accent: #1a5ce8;
+    --accent-light: #eaf0fd;
+    --accent-mid: #b8cffa;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); text-decoration: none; }
+  .nav-links { display: flex; gap: 0.25rem; }
+  .nav-links a {
+    font-size: 13px; color: var(--text-secondary); text-decoration: none;
+    padding: 5px 12px; border-radius: var(--radius);
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-links a:hover { background: var(--surface); color: var(--text-primary); }
+  .nav-links a.active { background: var(--accent-light); color: var(--accent); }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* HOME */
+  .hero {
+    max-width: 780px; margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--text-primary); margin-bottom: 1.25rem;
+  }
+  .hero-sub {
+    font-size: 18px; color: var(--text-secondary);
+    max-width: 520px; margin-bottom: 2rem; line-height: 1.5;
+  }
+  .credential-strip {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    padding: 1rem 0; border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-muted);
+  }
+  .credential-strip span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-strong); }
+
+  .home-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    font-size: 14px; font-weight: 500;
+    padding: 0.6rem 1.25rem; border-radius: var(--radius);
+    border: none; cursor: pointer; text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .home-cta:hover { opacity: 0.88; }
+
+  .home-body { max-width: 780px; margin: 0 auto; padding: 3rem 2rem; }
+  .section-title { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 3rem; }
+  .about-card {
+    background: var(--off-white); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1.25rem;
+  }
+  .about-card h3 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); }
+  .about-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+  /* REPORTS TOOL */
+  .tool-wrap { max-width: 780px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+  .breadcrumb {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--text-muted); margin-bottom: 0.5rem; flex-wrap: wrap;
+  }
+  .breadcrumb .crumb-active { color: var(--accent); font-weight: 500; }
+  .breadcrumb svg { width: 10px; height: 10px; opacity: 0.4; }
+
+  .step-heading { font-size: 22px; font-weight: 600; margin-bottom: 0.25rem; }
+  .step-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 1.75rem; }
+
+  .opt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .opt-grid.wide { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+
+  .opt-btn {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1rem 1rem 0.9rem;
+    cursor: pointer; text-align: left;
+    transition: border-color 0.12s, background 0.12s, transform 0.1s;
+  }
+  .opt-btn:hover { border-color: var(--border-strong); background: var(--off-white); transform: translateY(-1px); }
+  .opt-btn.sel { border-color: var(--accent); background: var(--accent-light); }
+  .opt-btn .ol { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+  .opt-btn .os { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .opt-btn.sel .ol { color: var(--accent); }
+  .opt-btn.sport-opt { padding: 1.4rem 1rem; text-align: center; }
+  .sport-ico { font-size: 28px; margin-bottom: 8px; }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; color: var(--text-secondary);
+    background: none; border: none; cursor: pointer;
+    padding: 0; margin-bottom: 1.5rem;
+    transition: color 0.12s;
+  }
+  .back-link:hover { color: var(--text-primary); }
+
+  /* REPORT CARD */
+  .report-wrap {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1.75rem;
+  }
+  .report-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
+  .pname-input {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px; color: var(--text-primary);
+    border: none; border-bottom: 2px dashed var(--border-strong);
+    background: transparent; outline: none; width: 100%;
+    padding-bottom: 3px; transition: border-color 0.15s;
+  }
+  .pname-input:focus { border-bottom-color: var(--accent); }
+  .pname-input::placeholder { color: var(--text-muted); }
+  .grade-display {
+    min-width: 52px; height: 36px;
+    background: var(--accent-light); color: var(--accent);
+    font-size: 15px; font-weight: 600;
+    border-radius: var(--radius); display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .report-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tag {
+    font-size: 12px; color: var(--text-secondary);
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 3px 9px; border-radius: 20px;
+  }
+
+  .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 540px) { .fields-grid { grid-template-columns: 1fr; } .about-grid { grid-template-columns: 1fr; } }
+
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+  .field-group label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); }
+  .field-group textarea, .field-group input[type=text] {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; color: var(--text-primary);
+    background: var(--off-white); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 8px 10px;
+    resize: vertical; line-height: 1.5; transition: border-color 0.12s;
+  }
+  .field-group textarea:focus, .field-group input[type=text]:focus { outline: none; border-color: var(--accent); }
+  .field-group textarea::placeholder, .field-group input[type=text]::placeholder { color: var(--text-muted); }
+  .field-group textarea { min-height: 80px; }
+
+  .full-field { grid-column: 1 / -1; }
+
+  .grade-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .grade-section label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 0.6rem; }
+  .grades { display: flex; flex-wrap: wrap; gap: 6px; }
+  .grade-btn {
+    padding: 5px 13px; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--white);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    color: var(--text-secondary); transition: all 0.1s;
+  }
+  .grade-btn:hover { border-color: var(--border-strong); color: var(--text-primary); }
+  .grade-btn.gsel { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+  .report-actions { margin-top: 1.5rem; display: flex; gap: 10px; align-items: center; }
+  .btn-primary {
+    background: var(--accent); color: white;
+    font-size: 13px; font-weight: 500;
+    padding: 0.55rem 1.1rem; border-radius: var(--radius);
+    border: none; cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-ghost {
+    background: none; border: 1px solid var(--border);
+    color: var(--text-secondary); font-size: 13px;
+    padding: 0.55rem 1.1rem; border-radius: var(--radius);
+    cursor: pointer; transition: background 0.12s;
+  }
+  .btn-ghost:hover { background: var(--surface); }
+
+  .reset-link { font-size: 12px; color: var(--text-muted); cursor: pointer; margin-top: 1rem; display: inline-block; }
+  .reset-link:hover { color: var(--text-secondary); text-decoration: underline; }
+
+  /* ABOUT */
+  .about-page { max-width: 680px; margin: 0 auto; padding: 3.5rem 2rem; }
+  .about-page h2 { font-family: 'DM Serif Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+  .about-page p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem; }
+  .about-page .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.5rem; }
+  .skill-tag { font-size: 12px; background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; color: var(--text-secondary); }
+
+  /* CONTACT */
+  .contact-page { max-width: 560px; margin: 0 auto; padding: 3.5rem 2rem; }
+  .contact-page h2 { font-family: 'DM Serif Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+  .contact-page .sub { color: var(--text-secondary); margin-bottom: 2rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input, .contact-form textarea {
+    font-family: 'Inter', sans-serif; font-size: 14px;
+    padding: 10px 12px; border: 1px solid var(--border);
+    border-radius: var(--radius); background: var(--off-white);
+    color: var(--text-primary); transition: border-color 0.12s;
+  }
+  .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); }
+  .contact-form textarea { min-height: 120px; resize: vertical; }
+  .contact-note { font-size: 13px; color: var(--text-muted); margin-top: 1.5rem; font-style: italic; }
+
+  /* PRINT STYLES */
+  @media print {
+    nav { display: none; }
+    .page { display: block !important; }
+    #page-home, #page-about, #page-contact { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#" onclick="showPage('home')">Ahil Jasani</a>
+  <div class="nav-links">
+    <a href="#" id="nav-home" class="active" onclick="showPage('home'); return false;">Home</a>
+    <a href="#" id="nav-reports" onclick="showPage('reports'); return false;">Reports</a>
+    <a href="#" id="nav-about" onclick="showPage('about'); return false;">About</a>
+    <a href="#" id="nav-contact" onclick="showPage('contact'); return false;">Contact</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <p class="hero-eyebrow">Football &amp; Basketball Operations</p>
+    <h1 class="hero-title">Ahil Jasani —<br>Scouting Portfolio</h1>
+    <p class="hero-sub">Finance-trained. Film-studied. Front office ready.</p>
+    <button class="home-cta" onclick="showPage('reports')">Open scouting tool →</button>
+    <div class="credential-strip">
+      <span>Georgia State University</span>
+      <span class="dot"></span>
+      <span>BBA Finance</span>
+      <span class="dot"></span>
+      <span>Expected December 2026</span>
+      <span class="dot"></span>
+      <span>Atlanta, GA</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- REPORTS -->
+<div class="page" id="page-reports">
+  <div class="tool-wrap">
+    <div id="breadcrumb" class="breadcrumb"></div>
+    <div id="report-tool"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <div class="about-page">
+    <h2>About Ahil Jasani</h2>
+    <div id="about-display" onclick="editAbout()" style="cursor:pointer;">
+      <p style="color:var(--text-muted); font-style:italic;">Click here to add your bio...</p>
+    </div>
+    <textarea id="about-editor" style="display:none; width:100%; min-height:260px; font-family:'Inter',sans-serif; font-size:15px; color:var(--text-primary); background:var(--off-white); border:1px solid var(--border); border-radius:var(--radius); padding:12px; resize:vertical; line-height:1.7;" placeholder="Write your bio here..." onblur="saveAbout()"></textarea>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Click your bio to edit it. Changes save automatically.</p>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="contact-page">
+    <h2>Get in touch</h2>
+    <p class="sub">Open to football and basketball operations opportunities — internships, scouting roles, and front office positions.</p>
+    <div class="contact-form">
+      <input type="text" placeholder="Your name" />
+      <input type="email" placeholder="Your email" />
+      <textarea placeholder="Your message"></textarea>
+      <button class="btn-primary" style="align-self:flex-start;" onclick="alert('Message sent! (Connect this form to a service like Formspree to make it live.)')">Send message</button>
+    </div>
+    <p class="contact-note">You can also reach me directly at: ahiljasani2@gmail.com</p>
+  </div>
+</div>
+
+<script>
+const SPORTS = {
+  Football: {
+    icon: "🏈",
+    divisions: {
+      "D1 — FBS": ["Alabama","Clemson","Georgia","LSU","Michigan","Ohio State","Oklahoma","Penn State","Texas","USC","Florida State","Notre Dame","Oregon","Tennessee","Washington"],
+      "D1 — FCS": ["Charleston Southern","Eastern Washington","Furman","Illinois State","Jacksonville State","James Madison","Montana","North Dakota State","Sacramento State","South Dakota State","Villanova","Weber State","Youngstown State"],
+      "D2": ["Angelo State","Colorado School of Mines","Ferris State","Grand Valley State","Harding","Minnesota State","Pittsburg State","Valdosta State","West Florida","Winona State"],
+      "D3": ["Brockport","Cortland","Hardin-Simmons","Ithaca","Mary Hardin-Baylor","North Central","Wartburg","Wheaton","Widener","Wisconsin-Whitewater"],
+      "NAIA": ["Baker","Benedictine","Friends","Grand View","Indiana Wesleyan","Lindsey Wilson","Morningside","Montana Western","Northwestern (IA)","Southern Oregon"],
+      "JUCO": ["Butler CC","Coffeyville CC","Dodge City CC","East Mississippi CC","Iowa Western CC","Itawamba CC","Jones CC","Northwest FL State CC","Northwest MS CC","Snow College"]
+    },
+    positions: ["QB","RB","WR","TE","OT","IOL","EDGE","DT","LB","CB","S"]
+  },
+  Basketball: {
+    icon: "🏀",
+    divisions: {
+      "D1": ["Arizona","Duke","Gonzaga","Houston","Kansas","Kentucky","Michigan State","Purdue","UNC","Villanova"],
+      "D2": ["Augustana (SD)","Central Missouri","Drury","Emporia State","Ferris State","Fort Hays State","Northwest Missouri State","Tarleton State","Washburn","West Texas A&M"],
+      "D3": ["Amherst","Hamilton","Johns Hopkins","MIT","Middlebury","Swarthmore","Trinity (TX)","Tufts","Washington & Lee","Williams"],
+      "NAIA": ["Columbia (MO)","Doane","Freed-Hardeman","Indiana Wesleyan","John Brown","Loyola (LA)","Oklahoma City","Ottawa (KS)","Park","Southeastern (FL)"],
+      "JUCO": ["Butler CC","Coffeyville CC","Hiwassee College","Indian Hills CC","Moberly Area CC","Monroe CC","Northwest Florida State","South Plains","Three Rivers CC","Vincennes"],
+      "G-League": ["Austin Spurs","Capital City Go-Go","Fort Wayne Mad Ants","Memphis Hustle","Raptors 905","Rio Grande Valley Vipers","Sioux Falls Skyforce","South Bay Lakers","Stockton Kings","Wisconsin Herd"]
+    },
+    positions: ["PG","SG","SF","PF","C"]
+  }
+};
+
+let S = { sport:null, div:null, team:null, pos:null, name:"", grade:null, strengths:"", weaknesses:"", comp:"", notes:"" };
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  if (id === 'reports') renderTool();
+  window.scrollTo(0, 0);
+}
+
+function crumbHTML() {
+  const parts = [];
+  if (S.sport) parts.push(S.sport);
+  if (S.div) parts.push(S.div);
+  if (S.team) parts.push(S.team);
+  if (S.pos) parts.push(S.pos);
+  if (!parts.length) return '';
+  const arrow = `<svg viewBox="0 0 10 10"><polyline points="3,2 7,5 3,8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+  return parts.map((p,i) => i < parts.length-1
+    ? `<span>${p}</span>${arrow}`
+    : `<span class="crumb-active">${p}</span>`
+  ).join('');
+}
+
+function back(to) {
+  if (to==='sport')    { S.sport=null; S.div=null; S.team=null; S.pos=null; }
+  if (to==='div')      { S.div=null; S.team=null; S.pos=null; }
+  if (to==='team')     { S.team=null; S.pos=null; }
+  if (to==='pos')      { S.pos=null; }
+  renderTool();
+}
+
+function pick(key, val) {
+  S[key] = val;
+  renderTool();
+}
+
+function setGrade(g) { S.grade = g; renderTool(); }
+
+function resetAll() {
+  S = { sport:null, div:null, team:null, pos:null, name:"", grade:null, strengths:"", weaknesses:"", comp:"", notes:"" };
+  renderTool();
+}
+
+function printReport() { window.print(); }
+
+function saveReport() {
+  const lines = [
+    `SCOUTING REPORT — AHIL JASANI`,
+    `================================`,
+    `Player: ${S.name || '(unnamed)'}`,
+    `Sport: ${S.sport}  |  Division: ${S.div}  |  School: ${S.team}  |  Position: ${S.pos}`,
+    `Overall Grade: ${S.grade || 'N/A'}`,
+    ``,
+    `STRENGTHS`,
+    S.strengths || '—',
+    ``,
+    `WEAKNESSES`,
+    S.weaknesses || '—',
+    ``,
+    `COMPARABLE PLAYER`,
+    S.comp || '—',
+    ``,
+    `ADDITIONAL NOTES`,
+    S.notes || '—',
+    ``,
+    `Generated: ${new Date().toLocaleDateString()}`
+  ].join('\n');
+  const blob = new Blob([lines], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${S.name || 'player'}_report.txt`;
+  a.click();
+}
+
+function renderTool() {
+  document.getElementById('breadcrumb').innerHTML = crumbHTML();
+  const el = document.getElementById('report-tool');
+
+  // Step 1: Sport
+  if (!S.sport) {
+    el.innerHTML = `
+      <h2 class="step-heading">Select a sport</h2>
+      <p class="step-sub">Step 1 of 5</p>
+      <div class="opt-grid wide">
+        ${Object.entries(SPORTS).map(([s,d]) => `
+          <button class="opt-btn sport-opt" onclick="pick('sport','${s}')">
+            <div class="sport-ico">${d.icon}</div>
+            <div class="ol">${s}</div>
+          </button>`).join('')}
+      </div>`;
+    return;
+  }
+
+  // Step 2: Division
+  if (!S.div) {
+    const divs = Object.keys(SPORTS[S.sport].divisions);
+    el.innerHTML = `
+      <button class="back-link" onclick="back('sport')">← Back</button>
+      <h2 class="step-heading">Select a division</h2>
+      <p class="step-sub">Step 2 of 5 — ${S.sport}</p>
+      <div class="opt-grid">
+        ${divs.map(d => `
+          <button class="opt-btn" onclick="pick('div','${d.replace(/'/g,"\\'")}')">
+            <div class="ol">${d}</div>
+          </button>`).join('')}
+      </div>`;
+    return;
+  }
+
+  // Step 3: Team
+  if (!S.team) {
+    const teams = SPORTS[S.sport].divisions[S.div];
+    el.innerHTML = `
+      <button class="back-link" onclick="back('div')">← Back</button>
+      <h2 class="step-heading">Select a school</h2>
+      <p class="step-sub">Step 3 of 5 — ${S.div}</p>
+      <div class="opt-grid">
+        ${teams.map(t => `
+          <button class="opt-btn" onclick="pick('team','${t.replace(/'/g,"\\'")}')">
+            <div class="ol">${t}</div>
+          </button>`).join('')}
+      </div>`;
+    return;
+  }
+
+  // Step 4: Position
+  if (!S.pos) {
+    const positions = SPORTS[S.sport].positions;
+    el.innerHTML = `
+      <button class="back-link" onclick="back('team')">← Back</button>
+      <h2 class="step-heading">Select a position</h2>
+      <p class="step-sub">Step 4 of 5 — ${S.team}</p>
+      <div class="opt-grid">
+        ${positions.map(p => `
+          <button class="opt-btn" onclick="pick('pos','${p}')">
+            <div class="ol">${p}</div>
+          </button>`).join('')}
+      </div>`;
+    return;
+  }
+
+  // Step 5: Report
+  const grades = ["A+","A","A-","B+","B","B-","C+","C","C-","D","F"];
+  el.innerHTML = `
+    <button class="back-link" onclick="back('pos')">← Back</button>
+    <h2 class="step-heading">Player report</h2>
+    <p class="step-sub">Step 5 of 5 — fill in what you know</p>
+    <div class="report-wrap">
+      <div class="report-top">
+        <input class="pname-input" type="text" placeholder="Player name" value="${S.name}"
+          oninput="S.name=this.value" />
+        <div class="grade-display" id="gdisplay">${S.grade || '—'}</div>
+      </div>
+      <div class="report-tags">
+        <span class="tag">${S.sport}</span>
+        <span class="tag">${S.div}</span>
+        <span class="tag">${S.team}</span>
+        <span class="tag">${S.pos}</span>
+      </div>
+      <div class="fields-grid">
+        <div class="field-group">
+          <label>Strengths</label>
+          <textarea placeholder="What does this player do well on film?" oninput="S.strengths=this.value">${S.strengths}</textarea>
+        </div>
+        <div class="field-group">
+          <label>Weaknesses</label>
+          <textarea placeholder="Areas of concern or development needed..." oninput="S.weaknesses=this.value">${S.weaknesses}</textarea>
+        </div>
+        <div class="field-group">
+          <label>Comparable player</label>
+          <textarea style="min-height:56px" placeholder="Pro comp (e.g. 'Poor man's Jaylen Waddle')" oninput="S.comp=this.value">${S.comp}</textarea>
+        </div>
+        <div class="field-group">
+          <label>Measurements / athleticism</label>
+          <textarea style="min-height:56px" placeholder="Height, weight, 40 time, wingspan, etc." oninput="S.notes=this.value">${S.notes}</textarea>
+        </div>
+      </div>
+      <div class="grade-section">
+        <label>Overall grade</label>
+        <div class="grades">
+          ${grades.map(g => `<button class="grade-btn${S.grade===g?' gsel':''}" onclick="setGrade('${g}')">${g}</button>`).join('')}
+        </div>
+      </div>
+      <div class="report-actions">
+        <button class="btn-primary" onclick="saveReport()">Download report</button>
+        <button class="btn-ghost" onclick="printReport()">Print</button>
+      </div>
+    </div>
+    <span class="reset-link" onclick="resetAll()">← Start a new report</span>
+  `;
+}
+
+renderTool();
+
+let aboutText = localStorage.getItem('about_bio') || '';
+
+function editAbout() {
+  const editor = document.getElementById('about-editor');
+  const display = document.getElementById('about-display');
+  editor.value = aboutText;
+  editor.style.display = 'block';
+  display.style.display = 'none';
+  editor.focus();
+}
+
+function saveAbout() {
+  const editor = document.getElementById('about-editor');
+  aboutText = editor.value;
+  localStorage.setItem('about_bio', aboutText);
+  editor.style.display = 'none';
+  renderAbout();
+}
+
+function renderAbout() {
+  const display = document.getElementById('about-display');
+  if (!display) return;
+  if (aboutText.trim()) {
+    display.innerHTML = aboutText.split('\n').filter(l => l.trim()).map(l => `<p>${l}</p>`).join('');
+  } else {
+    display.innerHTML = `<p style="color:var(--text-muted); font-style:italic;">Click here to add your bio...</p>`;
+  }
+  display.style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', renderAbout);
+</script>
+</body>
+</html>
